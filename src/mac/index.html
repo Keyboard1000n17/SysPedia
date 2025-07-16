@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+      charset="Unicode"
+    />
+    <title>MacPedia - Home</title>
+    <link href="./fluentUIstyling.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/src/MacPedia/Images/MacPedia-favicon.svg" />
+  </head>
+  <body id="main-body">
+    <header>
+      <nav>
+        <img src="./Images/MacPedia-logo.svg" alt="logo" height="70%" />
+        <ul>
+          <li class="nav">
+            <a href="/mac" class="nav">Home</a>
+          </li>
+          <li class="nav">
+            <a href="/mac/about" class="nav">About Me</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="homeContainer"></div>
+
+    <div id="content-container" style="display: none">
+      <span id="heading"></span>
+      <p id="description"></p>
+      <div id="info">
+        <img
+          id="info-image"
+          alt=""
+          style="align-self: center; width: 360px; height: 360px"
+        />
+        <p>Date released: <span id="release-date"></span></p>
+        <p>End of Support: <span id="end-of-support"></span></p>
+        <p>Latest release: <span id="latest-release"></span></p>
+        <p>Succeeded by: <span id="succeeded-by"></span></p>
+        <p>Codename: <span id="codename"></span></p>
+        <p>Developed by: <span id="developer"></span></p>
+      </div>
+      <button id="back-button" onclick="goBack()">Back</button>
+    </div>
+
+    <script>
+      const mainBody = document.getElementById("main-body");
+      const homeContainer = document.getElementById("homeContainer");
+      const contentContainer = document.getElementById("content-container");
+
+      // Set the background image for the main body
+      mainBody.style.backgroundImage = "url(./Images/Wallpapers/homeBG.jpg)";
+      mainBody.style.backgroundSize = "cover";
+
+      fetch("./macpedia.json")
+        .then((response) => response.json())
+        .then((data) => {
+          for (const version in data) {
+            const macVer = data[version];
+            const link = document.createElement("a");
+            link.href = `#${version}`;
+            link.classList.add("macref");
+            link.onclick = () => showContent(macVer);
+
+            const div = document.createElement("div");
+            div.id = version;
+            div.classList.add("macver");
+            div.style.backgroundImage = `url(${macVer.wallpaper})`;
+            div.style.backgroundSize = "cover";
+
+            const span = document.createElement("span");
+            span.textContent = macVer.title;
+            div.appendChild(span);
+
+            link.appendChild(div);
+            homeContainer.appendChild(link);
+          }
+        });
+
+      function showContent(macVer) {
+        homeContainer.style.display = "none";
+        contentContainer.style.display = "block";
+        mainBody.style.backgroundImage = `url(${macVer.wallpaper})`;
+
+        document.getElementById("heading").textContent = macVer.title;
+        document.getElementById("description").textContent = macVer.description;
+        document.getElementById("info-image").src = macVer.image;
+        document.getElementById("info-image").alt = macVer.title;
+        document.getElementById("release-date").textContent =
+          macVer.release_date;
+        document.getElementById("end-of-support").textContent =
+          macVer.end_of_support;
+        document.getElementById("latest-release").textContent =
+          macVer.latest_release;
+        document.getElementById("succeeded-by").innerHTML = macVer.succeeded_by;
+        document.getElementById("codename").textContent = macVer.codename;
+        document.getElementById("developer").textContent = macVer.developer;
+      }
+
+      function goBack() {
+        homeContainer.style.display = "grid";
+        contentContainer.style.display = "none";
+        mainBody.style.backgroundImage = "url(./Images/Wallpapers/homeBG.jpg)";
+      }
+    </script>
+  </body>
+</html>
