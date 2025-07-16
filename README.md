@@ -6,6 +6,8 @@ Subsites currently in development:
 ![WinPedia](./src/WinPedia/Images/WinPedia-logo.svg)  
 ![MacPedia](./src/MacPedia/Images/MacPedia-logo.svg)
 
-Special mention of the people who voluntarily provide information on Wikipedia; they are some great humans!
+Special mentions:
+- The people who voluntarily provide information on Wikipedia (they are some great humans!)
+- Andrinoff (he refactored my code!)
 
 **Keyboard1000n17**
